@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6d3d22f7-6326-415f-8ca1-d72cdc84edd0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/zuul-server/src/main/java/cn/wolfcode/shop/ZuulServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/zuul-server/src/main/java/cn/wolfcode/shop/ZuulServer.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="$PROJECT_DIR$/../../../../../../../../../Shared/mavenrepo" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../../../../../../../Shared/Library/apache-maven-3.3.9" />
+        <option name="userSettingsFile" value="$PROJECT_DIR$/../../../../../../../../../Shared/Library/settings/settings-aliyun.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1goiCJmVMnvdaOlASvsqtd0bzVR" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RunManager" selected="Spring Boot.MemberServer">
+    <configuration name="ConfigServer" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="config-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.wolfcode.shop.ConfigServer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EurekaServer" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="eureka-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.wolfcode.shop.EurekaServer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GoodsServer" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="goods-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.wolfcode.cloud.shop.GoodsServer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MemberServer" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="member-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.wolfcode.shop.MemberServer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SeckillServer" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="seckill-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.wolfcode.cloud.shop.SeckillServer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebSocketServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="websocket-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.wolfcode.cloud.shop.WebSocketServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ZuulServer" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="zuul-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.wolfcode.shop.ZuulServer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6d3d22f7-6326-415f-8ca1-d72cdc84edd0" name="Default Changelist" comment="" />
+      <created>1598787216323</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1598787216323</updated>
+      <workItem from="1598787812766" duration="498000" />
+      <workItem from="1598788816237" duration="3586000" />
+      <workItem from="1598951151308" duration="7000" />
+      <workItem from="1599127491731" duration="370000" />
+    </task>
+    <task id="LOCAL-00001" summary="更新仓库为腾讯云">
+      <created>1598794975662</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1598794975662</updated>
+    </task>
+    <task id="LOCAL-00002" summary="更新部署配置">
+      <created>1598797550658</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1598797550658</updated>
+    </task>
+    <task id="LOCAL-00003" summary="更新部署配置">
+      <created>1598797613156</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1598797613156</updated>
+    </task>
+    <task id="LOCAL-00004" summary="更新部署配置">
+      <created>1598797848359</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1598797848359</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="更新仓库为腾讯云" />
+    <MESSAGE value="更新部署配置" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新部署配置" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="320" y="115" key="#Project_Structure" timestamp="1598793677198">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="320" y="115" key="#Project_Structure/0.0.1440.900@0.0.1440.900" timestamp="1598793677198" />
+    <state x="108" y="52" key="CommitChangelistDialog2" timestamp="1598797848243">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="108" y="52" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1598797848243" />
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1598797849515">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1598797849515" />
+    <state x="378" y="207" width="782" height="486" key="find.popup" timestamp="1598797962163">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="378" y="207" width="782" height="486" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1598797962163" />
+  </component>
+</project>

@@ -1,0 +1,43 @@
+server:
+  port: 9100
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: git@gitee.com:wolfcodeliug/shop-cloud-config42.git
+          ignore-local-ssh-settings: true
+          private-key: |
+            -----BEGIN RSA PRIVATE KEY-----
+            MIIEowIBAAKCAQEA30Lqyg5gGpI2ytsVAE88psvpDwqzyjaDCHULVTDU94Iw6z1t
+            L29a8FQzlYJnwwavxy24ojU9Gp4kPqQnThXsJogiK7qqErSc1o55s5BSgp5kRN1N
+            IdK2npXFZl2okhgpEVSSbWHqJfZ4dlCVnSHPnuzbP080qe+HsfbC5GVDBoUYWQY3
+            5sjVoCD0JD3a3yn14pghfg1UIVP84JPpjx2RGBWxO4zUdjRFmwlZPGrGllgbeOt/
+            lgFr4wDqcTPz+0ZSUXFUvPhIjVippx5Nw+0MnI7UdV0ze5VjBhVuAnzNhpYUn3KY
+            4+Uub4bqyjc7yHrPW+GUnbXHBetwnisvqXA/PwIDAQABAoIBAFiQ5S8OkNU5l37V
+            dflPdZH9ZhDPgA8BnO1n8Pz0iCc/gERxc7TTidG4tVXkC2F0b5ql6o5+bCT5AwvO
+            dsElNS775gJO5FTTTTxX/LNc1z51svUWjRiTzFoQs+Qt10dNSk1TrVqy8v3oTlUx
+            Fojk9sXm0/rDYvLe0IeqihmsifA1cmY866/J63kqrxDTYWSeUBLxMwokc8AV2HWc
+            JTl/yN49itrL3KM6cDNYbCC3ac2mSk169pxqcnHp1IsrehMS5zUvQhZdiu053ReA
+            Ldua1hHWt0q2CvKNKUoag5fs1jpcHuE+UvJV7ZIgA6orVp/4qXbBs+a0Gnnog7Gi
+            y8XLFHECgYEA+KOeyOZEJynRZMTaZuv0dat0lY2jG9jeDPadgiEU42/FhjqL+mqV
+            RnV9WpWS8urMffNKgFA0nQELPjHK7tWYoJy4+kJ024N0wrww5CwLAgzu7EbTm46m
+            sGZj43JN+HFOPpXEE5+K0lYs5KZSwOZLFwBNHWSZxeSuibeLet1f09MCgYEA5d72
+            9oIbhhRA8efXtBK41QY5/24gJwal3dchF44f+PdmRfsqufQTjOKfASRCAsRq8Zjg
+            gkMrmxCNctmc14zxej9NDIi8aDnMKvdSbawK6L120IP0xUZIP0O+uCt26QVsdFLF
+            +VsIGX52vVmbfKShawumovqPz+o0H1eGEhnEf2UCgYEA9bXUS9rqzP0RdhDneECD
+            k+l9S/Htl65oOc1Y+Gky2FPzkmO3QyAjJr8iwur/jlmk/m74V/drFyEZ+DuCvSWO
+            MGLQllgoXWn6cBtEAajYtA0N66dOpPKDHd4BppqmHPf0B/s/Ctlmedg5gzgunXy4
+            BiIBEyQApsUICwa8qw2sDosCgYAa6qLMdqu2ZYS9TsKJSW/vMc10xXZqW3LsqRYs
+            5e2Ef6OwKhr0r0niw16PCanZHRrQs3AGkMr4W1XUzvp4mv5jrCnff9tf8PShS1iR
+            kwWr/xN8kxcESpiHH+2jLyO7YXEzpcWczzYBljddMLLuQ3DLUg/vIZvZYrk7uknu
+            sKm7qQKBgHNRLuATpz9xYdLxqWZS6lo9w1ZZwq1+wqUWtXqUILiK6xcHS30kYYri
+            Tje/0j0FRMQOnvBLI+kOa4tgb1LanUHy9JpxpCqnNgVVrqbQZZd+l5JznsrN0CNf
+            8QLYA17Eui++CQBnVAdBPweAj/kb5+0Bh7h+la6afrnVF6Ej9xhD
+            -----END RSA PRIVATE KEY-----
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/

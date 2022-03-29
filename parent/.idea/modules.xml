@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/config-server/config-server.iml" filepath="$PROJECT_DIR$/config-server/config-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-server/eureka-server.iml" filepath="$PROJECT_DIR$/eureka-server/eureka-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider-api/goods-api/goods-api.iml" filepath="$PROJECT_DIR$/provider-api/goods-api/goods-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider-server/goods-server/goods-server.iml" filepath="$PROJECT_DIR$/provider-server/goods-server/goods-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider-api/member-api/member-api.iml" filepath="$PROJECT_DIR$/provider-api/member-api/member-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider-server/member-server/member-server.iml" filepath="$PROJECT_DIR$/provider-server/member-server/member-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parent.iml" filepath="$PROJECT_DIR$/parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider-api/provider-api.iml" filepath="$PROJECT_DIR$/provider-api/provider-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider-server/provider-server.iml" filepath="$PROJECT_DIR$/provider-server/provider-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider-api/seckill-api/seckill-api.iml" filepath="$PROJECT_DIR$/provider-api/seckill-api/seckill-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provider-server/seckill-server/seckill-server.iml" filepath="$PROJECT_DIR$/provider-server/seckill-server/seckill-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/websocket-server/websocket-server.iml" filepath="$PROJECT_DIR$/websocket-server/websocket-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zuul-server/zuul-server.iml" filepath="$PROJECT_DIR$/zuul-server/zuul-server.iml" />
+    </modules>
+  </component>
+</project>

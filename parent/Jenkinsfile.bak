@@ -1,0 +1,108 @@
+def git_auth = "gitee-liug-auth"
+def git_repo_url = "https://gitee.com/wolfcodeliug/shop-cloud-cd.git"
+def parent = "parent"
+def docker_repo_url = "192.168.113.103:20000"
+def docker_base_repo = "java-cd"
+def tag = "1.0.0"
+
+pipeline {
+    agent any
+
+    stages {
+        stage('拉取代码') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/${branch}']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: "${git_auth}", url: "${git_repo_url}"]]])
+            }
+        }
+
+        stage('编译所有项目') {
+            steps {
+                script {
+                    for (item in "${project_name}".tokenize(',')) {
+                        def project = item.split('@')
+                        def serverPath = project[0]
+                        def port = project[1]
+                        sh "cd ${parent} && mvn clean package -Dmaven.skip.test=true"
+                    }
+                }
+            }
+        }
+
+        stage('代码审查') {
+            steps {
+                script {
+                    // 引入扫描工具，此处配置的名称需要与 "全局工具配置 > SonarQube Scanner" 中配置的名称一致
+                    scannerHome = tool 'sonarqube-scanner'
+                    for (item in "${project_name}".tokenize(',')) {
+                        def project = item.split('@')
+                        def serverPath = project[0]
+                        def port = project[1]
+                        // 引入sonarqube服务器环境，此配置名称需要与 "系统配置 > SonarQube Server" 中配置的名称一致
+                        withSonarQubeEnv('sonarqube-server') {
+                            sh """
+                               cd ${parent}/${serverPath}
+                               ${scannerHome}/bin/sonar-scanner
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('构建镜像 & 上传镜像') {
+            steps {
+                script {
+                    for (item in "${project_name}".tokenize(',')) {
+                        def project = item.split('@')
+                        def serverPath = project[0]
+                        def port = project[1]
+                        sh "mvn -f ${parent}/${serverPath} dockerfile:build -Dmaven.skip.test=true"
+
+                        def serverName = serverPath.split('/')
+                        def name = ""
+
+                        if (serverName.length > 1) {
+                            name = serverName[1]
+                        } else {
+                            name = serverName[0]
+                        }
+
+                        def imageName = "${name}:${tag}"
+
+                        withCredentials([usernamePassword(credentialsId: 'docker-repo-auth', passwordVariable: 'password', usernameVariable: 'username')]) {
+                            sh "echo 准备推送镜像 ${docker_repo_url}/${docker_base_repo}/${imageName}"
+                            sh "docker login -u ${username} -p ${password} ${docker_repo_url}"
+                            sh "docker push ${docker_repo_url}/${docker_base_repo}/${imageName}"
+                            sh "echo 镜像推送成功"
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('部署项目') {
+            steps {
+                script {
+                    for (item in "${project_name}".tokenize(',')) {
+                                            def project = item.split('@')
+                                            def serverPath = project[0]
+                                            def port = project[1]
+
+                                            def serverName = serverPath.split('/')
+                                            def name = ""
+
+                                            if (serverName.length > 1) {
+                                                name = serverName[1]
+                                            } else {
+                                                name = serverName[0]
+                                            }
+
+                                            def imageName = "${name}:${tag}"
+
+                        sshPublisher(publishers: [sshPublisherDesc(configName: 'leon-mac', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: "/Users/hox/scripts/deploy.sh ${name}", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,102 @@
+version: '2'
+services:
+  eureka-server:
+    image: ccr.ccs.tencentyun.com/wolfcode/cicd/eureka-server:1.0.0
+    container_name: 'eureka-server'
+    hostname: 'eureka-server'
+    ports:
+      - 8761:8761
+    networks:
+      - seckill-net
+  config-server:
+    image: ccr.ccs.tencentyun.com/wolfcode/cicd/config-server:1.0.0
+    container_name: 'config-server'
+    hostname: 'config-server'
+    ports:
+      - 9100:9100
+    networks:
+      - seckill-net
+    depends_on:
+      - eureka-server
+    links:
+      - eureka-server
+  zuul-server:
+    image: ccr.ccs.tencentyun.com/wolfcode/cicd/zuul-server:1.0.0
+    container_name: 'zuul-server'
+    hostname: 'zuul-server'
+    ports:
+      - 9000:9000
+    networks:
+      - seckill-net
+    depends_on:
+      - config-server
+    links:
+      - config-server
+      - eureka-server
+  websocket-server:
+    image: ccr.ccs.tencentyun.com/wolfcode/cicd/websocket-server:1.0.0
+    container_name: 'websocket-server'
+    hostname: 'websocket-server'
+    ports:
+      - 8094:8094
+    networks:
+      - seckill-net
+    depends_on:
+      - config-server
+    links:
+      - config-server
+      - eureka-server
+    external_links:
+      - mqnamesrv
+  member-server:
+    image: ccr.ccs.tencentyun.com/wolfcode/cicd/member-server:1.0.0
+    container_name: 'member-server'
+    hostname: 'member-server'
+    ports:
+      - 8090:8090
+    networks:
+      - seckill-net
+    depends_on:
+      - config-server
+    links:
+      - config-server
+      - eureka-server
+    external_links:
+      - redis
+      - mysql
+  goods-server:
+    image: ccr.ccs.tencentyun.com/wolfcode/cicd/goods-server:1.0.0
+    container_name: 'goods-server'
+    hostname: 'goods-server'
+    ports:
+      - 8091:8091
+    networks:
+      - seckill-net
+    depends_on:
+      - config-server
+    links:
+      - config-server
+      - eureka-server
+    external_links:
+      - redis
+      - mysql
+  seckill-server:
+    image: ccr.ccs.tencentyun.com/wolfcode/cicd/seckill-server:1.0.0
+    container_name: 'seckill-server'
+    hostname: 'seckill-server'
+    ports:
+      - 8092:8092
+    networks:
+      - seckill-net
+    depends_on:
+      - config-server
+    links:
+      - config-server
+      - eureka-server
+    external_links:
+      - redis
+      - mysql
+      - mqnamesrv
+networks:
+  seckill-net:
+    driver: bridge

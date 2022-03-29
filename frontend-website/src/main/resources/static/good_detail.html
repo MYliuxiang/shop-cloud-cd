@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<head>
+    <title>商品详情</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css"/><!-- bootstrap -->
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/jquery-validation/jquery.validate.min.js"></script> <!-- jquery-validator -->
+    <script type="text/javascript" src="/jquery-validation/localization/messages_zh.min.js"></script>
+    <script type="text/javascript" src="/layer/layer.js"></script><!-- layer -->
+    <script type="text/javascript" src="/js/md5.min.js"></script><!-- md5.js -->
+    <script type="text/javascript" src="/js/common.js"></script><!-- common.js -->
+    <script type="text/javascript" src="/js/socket.js"></script><!-- common.js -->
+</head>
+<body>
+<div class="panel panel-default">
+    <div class="panel-heading">秒杀商品详情</div>
+    <div class="panel-body">
+        <div id="userTip" style="display: none">
+            <span>您还没有登录，请<a href="/login.html">登陆</a>后再操作<br/></span>
+        </div>
+        <span>没有收货地址的提示。。。</span>
+    </div>
+    <table class="table">
+        <tr>
+            <td>商品名称</td>
+            <td colspan="3" id="goodName"></td>
+        </tr>
+        <tr>
+            <td>商品图片</td>
+            <td colspan="3"><img id="goodImg" width="200" height="200"/></td>
+        </tr>
+        <tr>
+            <td>秒杀开始时间</td>
+            <td id="startDate"></td>
+            <td id="seckillTip">秒杀活动尚未开始</td>
+            <td>
+                <img id="verifyCodeImg" width="80" height="32" onclick="initVerifyCodeImg()" style="display: none">
+                <input id="verifyCode" style="display: none">
+                <button class="btn btn-primary btn-block" disabled type="button" id="buyButton" onclick="doSeckill()">立即秒杀</button>
+            </td>
+        </tr>
+        <tr>
+            <td>商品原价</td>
+            <td colspan="3" id="goodPrice"></td>
+        </tr>
+        <tr>
+            <td>秒杀价</td>
+            <td colspan="3" id="seckillPrice"></td>
+        </tr>
+        <tr>
+            <td>库存数量</td>
+            <td colspan="3" id="stockCount"></td>
+        </tr>
+    </table>
+</div>
+<script>
+    // 发起请求获取秒杀商品信息:先获取url中的秒杀id
+    var seckillId = getQueryString("seckillId"),
+        user = null,
+        uuid = null;
+
+    // 初始化商品详情信息
+    initGood();
+
+    // 判断用户是否存在
+    initUser();
+    
+    function doSeckill() {
+        // 判断秒杀id是否获取到
+        if (!seckillId) {
+            layer.msg("秒杀参数异常, 请重新进入页面");
+            return;
+        }
+        // 判断用户是否已登录
+        if (!user) {
+            layer.msg("请先登录后再进行秒杀");
+            return;
+        }
+        // 调用 ajax 发起秒杀请求
+        $.ajax({
+            url: 'http://localhost:9000/seckill/api/orders/doSeckill',
+            type: "POST",
+            xhrFields: {withCredentials: true},
+            data: {seckillId: seckillId, uuid: uuid},
+            success: function (res) { // 只有http请求的status=200
+                // {code: 200, data: orderId, msg: "success"}
+                if (res.code === 200) {
+                    // 跳转到订单详情页
+                    // location.href = "/order_detail.html?orderNo=" + res.data;
+                    layer.msg(res.msg);
+                } else {
+                    layer.msg(res.msg);
+                }
+            },
+            error: function (res) {
+                if (res.responseJSON) {
+                    layer.msg(res.responseJSON.msg);
+                }
+            }
+        });
+    }
+
+    function initUser() {
+        // 发起请求到 member-server 获取当前登录的用户信息
+        $.ajax({
+            url: 'http://localhost:9000/member/users/current',
+            type: "GET",
+            xhrFields: {withCredentials: true},
+            success: function (res) { // 只有http请求的status=200
+                renderUser(res.data);
+            },
+            error: function (res) {
+                if (res.responseJSON) {
+                    layer.msg(res.responseJSON.msg);
+                }
+            }
+        });
+    }
+
+    function renderUser(data) {
+        // 判断是否获取到用户信息, 如果没有, 显示 userTip
+        if (!data) {
+            $("#userTip").css("display", "block");
+        } else {
+            user = data;
+            // 得到uuid,并且发送给后端
+            uuid = getUuid(user.id);
+            // 收到排队中的消息, 代表校验通过, 准备开始秒杀了
+            // 所以此时需要建立 websocket 连接
+            createSocket(uuid);
+        }
+    }
+
+    function initGood() {
+        $.ajax({
+            url: 'http://localhost:9000/seckill/api/seckillGoods/findById?seckillId=' + seckillId,
+            type: "GET",
+            xhrFields: {withCredentials: true},
+            success: function (res) { // 只有http请求的status=200
+                renderDetail(res.data);
+            },
+            error: function (res) {
+                if (res.responseJSON) {
+                    layer.msg(res.responseJSON.msg);
+                }
+            }
+        });
+    }
+
+    function renderDetail(seckillGood) {
+        $("#goodName").text(seckillGood.goodName);
+        $("#goodImg").prop("src", seckillGood.goodImg);
+        $("#startDate").text(seckillGood.startDate);
+        $("#goodPrice").text(seckillGood.goodPrice);
+        $("#seckillPrice").text(seckillGood.seckillPrice);
+        $("#stockCount").text(seckillGood.stockCount);
+
+        // 判断当前秒杀活动是否开启, 如果未开启或者已开启, 都显示距离开始xxx多久, 距离结束多久...
+        renderTime(seckillGood.startDate, seckillGood.endDate);
+
+        // 定时渲染时间
+        setInterval(function () {
+            renderTime(seckillGood.startDate, seckillGood.endDate);
+        }, 1000);
+    }
+
+    // 此时这两个时间参数都经过 json 格式化, 类型变成 String
+    function renderTime(startDate, endDate) {
+        var beginTime = new Date(startDate),
+            endTime = new Date(endDate),
+            now = new Date();
+
+        // 计算秒杀是否已经开始|是否已经结束
+        var leftBeginTime = beginTime.getTime() - now.getTime(),
+            leftEndTime = endTime.getTime() - now.getTime();
+        // now: 11:00   begin: 11:30    end: 12:30
+        // leftBeginTime > 0: 活动尚未开启, leftBeginTime <= 0 : 活动已经开启
+        // leftEndTime > 0: 活动尚未结束, leftEndTime <= 0 : 活动已经结束
+        var buyBtn = $("#buyButton");
+
+        if (leftBeginTime > 0) {
+            // 活动尚未开始, 提示用户活动尚未开始, 并且按钮设置为禁用
+            $("#seckillTip").text("秒杀活动尚未开始");
+            buyBtn.prop("disabled", true);
+            // 按钮上显示开始倒计时
+            // var ld = parseInt(leftBeginTime / (24 * 60 * 60 * 1000)),
+            //     lh = parseInt(leftBeginTime / (60 * 60 * 1000)),
+            //     lm = parseInt(leftBeginTime / (60 * 1000)),
+            //     ls = parseInt(leftBeginTime / 1000 % 60);
+            buyBtn.text("剩余开始时间:" + (leftBeginTime / 1000) + "秒");
+        } else {
+            if (leftEndTime > 0) {
+                // 活动已经开始 并且尚未结束, 提示用户,并开启秒杀按钮
+                $("#seckillTip").text("秒杀活动火爆进行中");
+                buyBtn.prop("disabled", false);
+                buyBtn.text("立即秒杀");
+            } else {
+                // 活动已经结束, 提示用户
+                $("#seckillTip").text("秒杀活动已经结束了");
+                buyBtn.prop("disabled", true);
+            }
+        }
+    }
+</script>
+</body>
+</html>

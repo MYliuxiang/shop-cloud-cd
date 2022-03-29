@@ -1,0 +1,74 @@
+version: '2'
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: 'mysql'
+    hostname: 'mysql'
+    ports:
+      - 3307:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+    volumes:
+    - /usr/local/docker/mysql/conf:/etc/mysql
+    - /usr/local/docker/mysql/logs:/var/log/mysql
+    - /usr/local/docker/mysql/data:/var/lib/mysql
+    - /etc/localtime:/etc/localtime:ro
+    restart: always
+    networks:
+      - seckill-net
+  redis:
+    image: redis:4
+    container_name: 'redis'
+    hostname: 'redis'
+    ports:
+      - 6379:6379
+    volumes:
+      - /usr/local/docker/redis/conf:/usr/local/etc/redis
+      - /usr/local/docker/redis/data:/data
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
+    command:
+      redis-server
+    networks:
+      - seckill-net
+  mqnamesrv:
+    image: foxiswho/rocketmq:server-4.4.0
+    container_name: 'mqnamesrv'
+    hostname: 'mqnamesrv'
+    restart: always
+    ports:
+      - 9876:9876
+    volumes:
+      - /usr/local/docker/rocketmq/namesrv/logs:/opt/logs
+      - /usr/local/docker/rocketmq/namesrv/store:/opt/store
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      JAVA_OPT_EXT: "-server -Xms300m -Xmx300m -Xmn150m"
+    networks:
+      - seckill-net
+  mqbroker:
+    image: foxiswho/rocketmq:broker-4.4.0
+    container_name: 'mqbroker'
+    hostname: 'mqbroker'
+    restart: always
+    ports:
+      - 10909:10909
+      - 10911:10911
+    volumes:
+      - /usr/local/docker/rocketmq/broker/logs:/opt/logs
+      - /usr/local/docker/rocketmq/broker/store:/opt/store
+      - /usr/local/docker/rocketmq/broker/conf/broker.conf:/etc/rocketmq/broker.conf
+      - /etc/localtime:/etc/localtime:ro
+    command: mqbroker -n mqnamesrv:9876 autoCreateTopicEnable=true -c /etc/rocketmq/broker.conf
+    networks:
+      - seckill-net
+    links:
+      - mqnamesrv:mqnamesrv
+    environment:
+      JAVA_OPTS: " -Duser.home=/opt"
+      JAVA_OPT_EXT: "-server -Xms300m -Xmx300m -Xmn150m"
+    depends_on:
+      - mqnamesrv
+networks:
+  seckill-net:
+    driver: bridge
